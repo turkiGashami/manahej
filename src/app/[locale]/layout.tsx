@@ -5,7 +5,7 @@ import { getMessages, getTranslations, setRequestLocale } from 'next-intl/server
 import { routing, dirForLocale, isValidLocale } from '@/i18n/routing';
 import { Header } from '@/components/Header';
 import { Footer } from '@/components/Footer';
-import { siteUrl } from '@/lib/utils';
+import { siteUrlObject } from '@/lib/utils';
 import { IBM_Plex_Sans_Arabic, Amiri } from 'next/font/google';
 import '../globals.css';
 
@@ -37,7 +37,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'common' });
   return {
-    metadataBase: new URL(siteUrl()),
+    metadataBase: siteUrlObject(),
     title: {
       default: t('siteName'),
       template: `%s · ${t('siteName')}`,

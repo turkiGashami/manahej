@@ -35,10 +35,21 @@ export function formatDate(value: string | Date | null | undefined, locale: stri
   }).format(d);
 }
 
-/** Absolute site URL for share links / QR / sitemap. */
+/** Absolute site URL for share links / QR / sitemap. Tolerates a value
+ *  pasted without a scheme (prepends https://). */
 export function siteUrl(path = ''): string {
-  const base = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, '') || 'http://localhost:3000';
+  let base = process.env.NEXT_PUBLIC_SITE_URL?.trim().replace(/\/+$/, '') || 'http://localhost:3000';
+  if (!/^https?:\/\//i.test(base)) base = `https://${base}`;
   return `${base}${path}`;
+}
+
+/** Safe URL object for metadataBase — never throws on a bad env value. */
+export function siteUrlObject(): URL | undefined {
+  try {
+    return new URL(siteUrl());
+  } catch {
+    return undefined;
+  }
 }
 
 /** Pick the localized title; fall back to Arabic when English is missing. */
