@@ -78,8 +78,16 @@ export default async function CurriculumPage({
     },
   ];
 
+  const sizeText = formatFileSize(c.file_size, locale);
+  const quickFacts = [
+    c.page_count ? `${formatNumber(c.page_count, locale)} ${locale === 'ar' ? 'صفحة' : 'pages'}` : null,
+    sizeText !== '—' ? sizeText : null,
+  ]
+    .filter(Boolean)
+    .join(' · ');
+
   return (
-    <div className="container-page py-8">
+    <div className="container-page py-6 sm:py-8">
       {/* Breadcrumb */}
       <nav className="mb-4 flex flex-wrap items-center gap-1.5 text-sm text-muted" aria-label="breadcrumb">
         <Link href="/browse" className="hover:text-fg">
@@ -108,9 +116,28 @@ export default async function CurriculumPage({
         {author ? <p className="mt-1 text-muted">{author}</p> : null}
       </header>
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
-        {/* Main column */}
-        <div className="space-y-6">
+      {/* Mobile-first: action (cover + download) → about + preview → details.
+          On large screens this becomes a content column + sticky sidebar. */}
+      <div className="space-y-6 lg:grid lg:grid-cols-[1fr_340px] lg:items-start lg:gap-8 lg:space-y-0">
+        {/* A — action: cover + download + quick facts (top on mobile) */}
+        <div className="lg:col-start-2 lg:row-start-1 lg:sticky lg:top-24">
+          <div className="card p-4">
+            <div className="flex gap-4 lg:block">
+              <div className="w-28 shrink-0 lg:mb-4 lg:w-full">
+                <CoverThumb url={c.cover_url} title={title} />
+              </div>
+              <div className="flex flex-1 flex-col justify-center gap-2">
+                <DownloadButton curriculumId={c.id} pdfUrl={c.pdf_url} />
+                {quickFacts ? (
+                  <p className="text-center text-xs text-muted">{quickFacts}</p>
+                ) : null}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* B — about + preview (main content) */}
+        <div className="space-y-6 lg:col-start-1 lg:row-start-1 lg:row-span-2">
           {c.description ? (
             <section>
               <h2 className="mb-2 text-lg font-semibold">{t('about')}</h2>
@@ -124,10 +151,8 @@ export default async function CurriculumPage({
           </section>
         </div>
 
-        {/* Sidebar */}
-        <aside className="space-y-4 lg:sticky lg:top-20 lg:self-start">
-          <DownloadButton curriculumId={c.id} pdfUrl={c.pdf_url} />
-
+        {/* C — full details + share + report */}
+        <div className="space-y-4 lg:col-start-2 lg:row-start-2">
           <dl className="card divide-y divide-border text-sm">
             {details
               .filter((d) => d.value)
@@ -144,10 +169,27 @@ export default async function CurriculumPage({
           <div className="px-1">
             <ReportDialog curriculumId={c.id} />
           </div>
-        </aside>
+        </div>
       </div>
 
       <RelatedCurricula current={c} />
+    </div>
+  );
+}
+
+function CoverThumb({ url, title }: { url: string | null; title: string }) {
+  return (
+    <div className="aspect-[3/4] overflow-hidden rounded-lg border border-border bg-surface-2">
+      {url ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={url} alt="" className="h-full w-full object-cover" />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-primary/15 to-accent/15">
+          <span className="text-3xl font-bold text-primary/40">
+            {title?.trim()?.charAt(0) ?? '؟'}
+          </span>
+        </div>
+      )}
     </div>
   );
 }
