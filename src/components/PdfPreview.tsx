@@ -32,8 +32,8 @@ export function PdfPreview({ url }: { url: string | null }) {
           src={`${url}#view=FitH`}
           title={t('preview')}
           onLoad={() => setLoaded(true)}
-          className="h-[58vh] w-full bg-surface-2 sm:h-[68vh] lg:h-[74vh]"
-          style={{ maxHeight: 820 }}
+          className="h-[42vh] w-full bg-surface-2 sm:h-[55vh] lg:h-[70vh]"
+          style={{ maxHeight: 760 }}
         />
       </div>
       <a

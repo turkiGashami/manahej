@@ -127,7 +127,7 @@ export default async function CurriculumPage({
                 <CoverThumb url={c.cover_url} title={title} />
               </div>
               <div className="flex flex-1 flex-col justify-center gap-2">
-                <DownloadButton curriculumId={c.id} pdfUrl={c.pdf_url} />
+                <DownloadButton curriculumId={c.id} pdfUrl={c.pdf_url} fileName={`${c.slug}.pdf`} />
                 {quickFacts ? (
                   <p className="text-center text-xs text-muted">{quickFacts}</p>
                 ) : null}
