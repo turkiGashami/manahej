@@ -27,12 +27,15 @@ export function FilterSidebar({
   filters,
   basePath,
   lockedDimension,
+  hideHeading = false,
 }: {
   facets: Facets;
   filters: CurriculaFilters;
   basePath: string;
   /** A dimension fixed by the route (e.g. stage on /stage/[slug]) — hidden. */
   lockedDimension?: DimensionKey;
+  /** Hide the "Filters" heading (e.g. inside the mobile drawer). */
+  hideHeading?: boolean;
 }) {
   const t = useTranslations('browse');
   const tc = useTranslations('common');
@@ -58,14 +61,24 @@ export function FilterSidebar({
 
   return (
     <aside className="space-y-4" aria-label={t('filters')}>
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">{t('filters')}</h2>
-        {hasAnyFilter(filters) ? (
-          <button type="button" onClick={clearAll} className="text-sm text-primary hover:underline">
-            {tc('clearFilters')}
-          </button>
-        ) : null}
-      </div>
+      {hideHeading ? (
+        hasAnyFilter(filters) ? (
+          <div className="flex justify-end">
+            <button type="button" onClick={clearAll} className="text-sm text-primary hover:underline">
+              {tc('clearFilters')}
+            </button>
+          </div>
+        ) : null
+      ) : (
+        <div className="flex items-center justify-between">
+          <h2 className="text-lg font-semibold">{t('filters')}</h2>
+          {hasAnyFilter(filters) ? (
+            <button type="button" onClick={clearAll} className="text-sm text-primary hover:underline">
+              {tc('clearFilters')}
+            </button>
+          ) : null}
+        </div>
+      )}
 
       {dimensions.map((dim) => {
         const options = facets[dim];

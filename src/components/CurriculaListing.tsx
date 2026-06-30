@@ -2,6 +2,7 @@ import { getLocale } from 'next-intl/server';
 import { listCurricula, getFacets, type CurriculaFilters } from '@/lib/curricula';
 import type { DimensionKey } from '@/lib/filters';
 import { FilterSidebar } from './FilterSidebar';
+import { MobileFilterDrawer } from './MobileFilterDrawer';
 import { SortBar } from './SortBar';
 import { CurriculumGrid } from './CurriculumGrid';
 import { Pagination } from './Pagination';
@@ -27,14 +28,27 @@ export async function CurriculaListing({
 
   return (
     <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
-      <FilterSidebar
-        facets={facets}
-        filters={filters}
-        basePath={basePath}
-        lockedDimension={lockedDimension}
-      />
+      {/* Desktop: side column. Hidden on mobile (drawer used instead). */}
+      <aside className="hidden lg:block">
+        <FilterSidebar
+          facets={facets}
+          filters={filters}
+          basePath={basePath}
+          lockedDimension={lockedDimension}
+        />
+      </aside>
 
       <div className="space-y-4">
+        {/* Mobile: filters open in a bottom-sheet drawer. */}
+        <div className="lg:hidden">
+          <MobileFilterDrawer
+            facets={facets}
+            filters={filters}
+            basePath={basePath}
+            lockedDimension={lockedDimension}
+          />
+        </div>
+
         <SortBar filters={filters} basePath={basePath} total={list.total} />
         <CurriculumGrid items={list.items} locale={locale} />
         <Pagination
