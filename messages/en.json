@@ -28,12 +28,25 @@
   "nav": {
     "home": "Home",
     "browse": "Browse",
+    "ask": "Ask the library",
     "stages": "Stages",
     "subjects": "Subjects",
     "upload": "Upload",
     "admin": "Admin",
     "toggleTheme": "Toggle dark mode",
     "switchLanguage": "Switch language"
+  },
+  "ask": {
+    "badge": "AI-assisted",
+    "title": "Ask the library",
+    "subtitle": "Describe what you're looking for in plain words, and we'll suggest suitable curricula from the library.",
+    "placeholder": "e.g. a concise book on creed for a beginner…",
+    "askButton": "Ask",
+    "example1": "Simplified Fiqh curricula for intermediate level",
+    "example2": "A Tajweed book for beginners",
+    "example3": "A concise Prophetic biography",
+    "notConfigured": "The assistant is not enabled on this site yet.",
+    "disclaimer": "AI-assisted suggestions — verify with the source; not a fatwa. For religious rulings, consult qualified scholars."
   },
   "home": {
     "heroBadge": "Free · No sign-up · Multilingual",

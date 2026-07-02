@@ -18,6 +18,14 @@ export async function Header() {
 
         <nav className="hidden items-center gap-1 md:flex" aria-label="primary">
           <NavLink href="/browse">{t('nav.browse')}</NavLink>
+          <NavLink href="/ask">
+            <span className="inline-flex items-center gap-1.5">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 3l1.8 4.9L18.7 9l-4.9 1.8L12 15.7l-1.8-4.9L5.3 9l4.9-1.1L12 3Z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+              </svg>
+              {t('nav.ask')}
+            </span>
+          </NavLink>
         </nav>
 
         <div className="mx-auto hidden w-full max-w-md lg:block">
